@@ -1,0 +1,99 @@
+@import 'react-toastify/dist/ReactToastify.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply box-border;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply font-body bg-background text-gray-900 antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+/* Toast Customizations */
+.Toastify__toast-container {
+  @apply z-50;
+  width: 400px;
+}
+
+.Toastify__toast {
+  @apply rounded-lg shadow-lg border border-gray-200 text-sm font-medium;
+  min-height: 60px;
+  padding: 16px;
+}
+
+.Toastify__toast--success {
+  @apply bg-white border-success/20;
+}
+
+.Toastify__toast--error {
+  @apply bg-white border-error/20;
+}
+
+.Toastify__toast--info {
+  @apply bg-white border-info/20;
+}
+
+.Toastify__toast-body {
+  @apply p-0 text-gray-700;
+}
+
+.Toastify__progress-bar {
+  @apply bg-primary/30;
+}
+
+.Toastify__close-button {
+  @apply text-gray-400 hover:text-gray-600;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+/* Image upload area styles */
+.upload-area {
+  @apply border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors hover:border-primary/50 hover:bg-primary/5;
+}
+
+.upload-area.drag-over {
+  @apply border-primary bg-primary/10;
+}
+
+/* Recipe card hover effects */
+.recipe-card {
+  @apply transition-all duration-200 hover:shadow-xl hover:scale-[1.02];
+}
+
+/* Custom checkbox styles */
+.custom-checkbox {
+  @apply appearance-none w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center cursor-pointer transition-colors;
+}
+
+.custom-checkbox:checked {
+  @apply bg-primary border-primary;
+}
+
+.custom-checkbox:checked::after {
+  content: '✓';
+  @apply text-white text-sm font-bold;
+}

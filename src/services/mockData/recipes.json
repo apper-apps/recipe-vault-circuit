@@ -1,0 +1,203 @@
+[
+  {
+    "Id": 1,
+    "title": "Classic Spaghetti Carbonara",
+    "description": "A traditional Italian pasta dish with eggs, cheese, pancetta, and black pepper. Simple ingredients create an incredibly rich and satisfying meal.",
+    "ingredients": [
+      "1 lb spaghetti pasta",
+      "6 large eggs",
+      "1 cup freshly grated Pecorino Romano cheese",
+      "8 oz pancetta, diced",
+      "4 cloves garlic, minced",
+      "Freshly ground black pepper",
+      "Salt to taste",
+      "2 tbsp olive oil"
+    ],
+    "instructions": [
+      "Bring a large pot of salted water to boil and cook spaghetti according to package directions until al dente.",
+      "While pasta cooks, heat olive oil in a large skillet over medium heat. Add pancetta and cook until crispy, about 5-7 minutes.",
+      "Add minced garlic to the pancetta and cook for another minute until fragrant.",
+      "In a bowl, whisk together eggs, grated cheese, and a generous amount of black pepper.",
+      "When pasta is done, reserve 1 cup of pasta water before draining.",
+      "Add hot pasta to the skillet with pancetta and toss to combine.",
+      "Remove from heat and quickly add the egg mixture, tossing vigorously to create a creamy sauce.",
+      "Add pasta water gradually if needed to achieve desired consistency.",
+      "Serve immediately with additional cheese and black pepper."
+    ],
+    "prepTime": 10,
+    "cookTime": 20,
+    "servings": 4,
+    "categories": ["dinner", "italian", "pasta"],
+    "imageUrl": "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400",
+    "createdAt": "2024-01-15T10:00:00Z"
+  },
+  {
+    "Id": 2,
+    "title": "Fluffy Pancakes",
+    "description": "Light, fluffy pancakes perfect for weekend breakfast. These pancakes are golden brown on the outside and incredibly soft on the inside.",
+    "ingredients": [
+      "2 cups all-purpose flour",
+      "2 tbsp sugar",
+      "2 tsp baking powder",
+      "1 tsp salt",
+      "2 large eggs",
+      "1¾ cups milk",
+      "¼ cup melted butter",
+      "1 tsp vanilla extract",
+      "Butter for cooking"
+    ],
+    "instructions": [
+      "In a large bowl, whisk together flour, sugar, baking powder, and salt.",
+      "In another bowl, beat eggs and then whisk in milk, melted butter, and vanilla.",
+      "Pour wet ingredients into dry ingredients and stir just until combined. Don't overmix - lumps are okay.",
+      "Let batter rest for 5 minutes while you heat the pan.",
+      "Heat a non-stick pan or griddle over medium heat and add a little butter.",
+      "Pour ¼ cup of batter for each pancake onto the hot griddle.",
+      "Cook until bubbles form on surface and edges look set, about 2-3 minutes.",
+      "Flip and cook until golden brown on the other side, about 1-2 minutes more.",
+      "Serve hot with butter and maple syrup."
+    ],
+    "prepTime": 10,
+    "cookTime": 15,
+    "servings": 6,
+    "categories": ["breakfast", "american", "sweet"],
+    "imageUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=400",
+    "createdAt": "2024-01-16T08:30:00Z"
+  },
+  {
+    "Id": 3,
+    "title": "Mediterranean Chickpea Salad",
+    "description": "A fresh and healthy salad packed with Mediterranean flavors. Perfect for meal prep or as a light lunch.",
+    "ingredients": [
+      "2 cans (15 oz) chickpeas, drained and rinsed",
+      "1 cucumber, diced",
+      "2 tomatoes, diced",
+      "1 red onion, thinly sliced",
+      "½ cup kalamata olives, pitted and halved",
+      "½ cup crumbled feta cheese",
+      "¼ cup fresh parsley, chopped",
+      "3 tbsp olive oil",
+      "2 tbsp lemon juice",
+      "1 tsp dried oregano",
+      "Salt and pepper to taste"
+    ],
+    "instructions": [
+      "In a large bowl, combine chickpeas, cucumber, tomatoes, red onion, and olives.",
+      "In a small bowl, whisk together olive oil, lemon juice, oregano, salt, and pepper.",
+      "Pour dressing over the chickpea mixture and toss to combine.",
+      "Add feta cheese and parsley, gently toss again.",
+      "Let salad marinate in refrigerator for at least 30 minutes before serving.",
+      "Taste and adjust seasoning as needed.",
+      "Serve chilled or at room temperature."
+    ],
+    "prepTime": 15,
+    "cookTime": 0,
+    "servings": 4,
+    "categories": ["salad", "mediterranean", "healthy", "vegetarian"],
+    "imageUrl": "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400",
+    "createdAt": "2024-01-17T12:15:00Z"
+  },
+  {
+    "Id": 4,
+    "title": "Chocolate Chip Cookies",
+    "description": "Classic homemade chocolate chip cookies that are crispy on the edges and chewy in the center. Perfect for any occasion!",
+    "ingredients": [
+      "2¼ cups all-purpose flour",
+      "1 tsp baking soda",
+      "1 tsp salt",
+      "1 cup butter, softened",
+      "¾ cup granulated sugar",
+      "¾ cup brown sugar, packed",
+      "2 large eggs",
+      "2 tsp vanilla extract",
+      "2 cups chocolate chips"
+    ],
+    "instructions": [
+      "Preheat oven to 375°F (190°C).",
+      "In a bowl, whisk together flour, baking soda, and salt. Set aside.",
+      "In a large bowl, cream together softened butter and both sugars until light and fluffy.",
+      "Beat in eggs one at a time, then add vanilla extract.",
+      "Gradually mix in the flour mixture until just combined.",
+      "Stir in chocolate chips.",
+      "Drop rounded tablespoons of dough onto ungreased baking sheets.",
+      "Bake for 9-11 minutes or until golden brown around the edges.",
+      "Cool on baking sheet for 2 minutes before transferring to wire rack."
+    ],
+    "prepTime": 15,
+    "cookTime": 10,
+    "servings": 48,
+    "categories": ["dessert", "baking", "sweet", "american"],
+    "imageUrl": "https://images.unsplash.com/photo-1499636136210-6f4ee915583e?w=400",
+    "createdAt": "2024-01-18T14:20:00Z"
+  },
+  {
+    "Id": 5,
+    "title": "Thai Green Curry",
+    "description": "Aromatic and flavorful Thai green curry with coconut milk, vegetables, and your choice of protein. Fragrant and satisfying.",
+    "ingredients": [
+      "2 tbsp green curry paste",
+      "1 can (14 oz) coconut milk",
+      "1 lb chicken breast, sliced thin",
+      "1 Thai eggplant, cubed",
+      "1 red bell pepper, sliced",
+      "1 cup green beans, trimmed",
+      "3 kaffir lime leaves",
+      "2 tbsp fish sauce",
+      "1 tbsp palm sugar",
+      "1 Thai chili, sliced",
+      "Fresh Thai basil leaves",
+      "Steamed jasmine rice for serving"
+    ],
+    "instructions": [
+      "Heat 2 tablespoons of thick coconut cream from the top of the can in a wok over medium heat.",
+      "Add green curry paste and fry for 2-3 minutes until fragrant.",
+      "Add chicken pieces and cook until nearly done, about 5 minutes.",
+      "Add remaining coconut milk and bring to a gentle simmer.",
+      "Add eggplant, bell pepper, and green beans. Simmer for 8-10 minutes.",
+      "Add kaffir lime leaves, fish sauce, and palm sugar.",
+      "Taste and adjust seasoning as needed.",
+      "Add Thai chili and fresh basil leaves just before serving.",
+      "Serve hot over steamed jasmine rice."
+    ],
+    "prepTime": 20,
+    "cookTime": 25,
+    "servings": 4,
+    "categories": ["dinner", "thai", "curry", "spicy"],
+    "imageUrl": "https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400",
+    "createdAt": "2024-01-19T18:45:00Z"
+  },
+  {
+    "Id": 6,
+    "title": "Caesar Salad",
+    "description": "Classic Caesar salad with crispy romaine lettuce, homemade croutons, parmesan cheese, and creamy Caesar dressing.",
+    "ingredients": [
+      "2 large heads romaine lettuce, chopped",
+      "½ cup freshly grated Parmesan cheese",
+      "2 cups day-old bread, cubed",
+      "3 cloves garlic, minced",
+      "⅓ cup olive oil",
+      "3 anchovy fillets, minced",
+      "1 large egg yolk",
+      "1 lemon, juiced",
+      "1 tsp Dijon mustard",
+      "Worcestershire sauce",
+      "Salt and black pepper to taste"
+    ],
+    "instructions": [
+      "For croutons: toss bread cubes with 2 tbsp olive oil and half the minced garlic. Bake at 375°F for 10-12 minutes until golden.",
+      "In a large bowl, mash remaining garlic and anchovies into a paste with salt.",
+      "Whisk in egg yolk, lemon juice, and Dijon mustard.",
+      "Slowly drizzle in remaining olive oil while whisking constantly to emulsify.",
+      "Add a few dashes of Worcestershire sauce and season with pepper.",
+      "Add chopped romaine lettuce and toss to coat with dressing.",
+      "Add half the Parmesan cheese and croutons, toss again.",
+      "Serve immediately topped with remaining cheese and croutons."
+    ],
+    "prepTime": 20,
+    "cookTime": 12,
+    "servings": 4,
+    "categories": ["salad", "classic", "lunch"],
+    "imageUrl": "https://images.unsplash.com/photo-1551248429-40975aa4de74?w=400",
+    "createdAt": "2024-01-20T13:10:00Z"
+  }
+]

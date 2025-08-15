@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "name": "breakfast",
+    "color": "#FFBA08"
+  },
+  {
+    "Id": 2,
+    "name": "lunch",
+    "color": "#43A047"
+  },
+  {
+    "Id": 3,
+    "name": "dinner",
+    "color": "#E85D04"
+  },
+  {
+    "Id": 4,
+    "name": "dessert",
+    "color": "#DC2F02"
+  },
+  {
+    "Id": 5,
+    "name": "appetizer",
+    "color": "#1976D2"
+  },
+  {
+    "Id": 6,
+    "name": "italian",
+    "color": "#43A047"
+  },
+  {
+    "Id": 7,
+    "name": "american",
+    "color": "#E53935"
+  },
+  {
+    "Id": 8,
+    "name": "thai",
+    "color": "#FB8C00"
+  },
+  {
+    "Id": 9,
+    "name": "mediterranean",
+    "color": "#1976D2"
+  },
+  {
+    "Id": 10,
+    "name": "healthy",
+    "color": "#43A047"
+  },
+  {
+    "Id": 11,
+    "name": "vegetarian",
+    "color": "#66BB6A"
+  },
+  {
+    "Id": 12,
+    "name": "pasta",
+    "color": "#FFBA08"
+  },
+  {
+    "Id": 13,
+    "name": "salad",
+    "color": "#66BB6A"
+  },
+  {
+    "Id": 14,
+    "name": "baking",
+    "color": "#8D6E63"
+  },
+  {
+    "Id": 15,
+    "name": "sweet",
+    "color": "#E91E63"
+  },
+  {
+    "Id": 16,
+    "name": "spicy",
+    "color": "#F44336"
+  },
+  {
+    "Id": 17,
+    "name": "curry",
+    "color": "#FF9800"
+  },
+  {
+    "Id": 18,
+    "name": "classic",
+    "color": "#795548"
+  }
+]
