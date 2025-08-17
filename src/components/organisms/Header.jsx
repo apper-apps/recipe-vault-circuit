@@ -42,8 +42,8 @@ const Header = ({ onSearch }) => {
             <div className="w-10 h-10 bg-gradient-to-r from-primary to-secondary rounded-lg flex items-center justify-center">
               <ApperIcon name="ChefHat" size={24} className="text-white" />
             </div>
-            <h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              RecipeVault
+<h1 className="font-display text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              Family Flavor Vault
             </h1>
           </div>
 
