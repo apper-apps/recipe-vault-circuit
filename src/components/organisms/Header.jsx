@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import ApperIcon from "@/components/ApperIcon";
+import { authService } from "@/services/api/authService";
 
 const Header = ({ onSearch }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const currentUser = authService.getCurrentUser();
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -18,6 +22,12 @@ const Header = ({ onSearch }) => {
     }
   };
 
+  const handleLogout = () => {
+    authService.logout();
+    toast.success('Logged out successfully');
+    navigate('/login');
+    setShowUserMenu(false);
+  };
   const navigationItems = [
     { name: "Recipes", path: "/", icon: "BookOpen" },
     { name: "Add Recipe", path: "/add-recipe", icon: "Plus" },
@@ -63,7 +73,7 @@ const Header = ({ onSearch }) => {
                 {item.name}
               </button>
             ))}
-          </nav>
+</nav>
 
           {/* Search Bar - Desktop */}
           {location.pathname === "/" && (
@@ -76,13 +86,64 @@ const Header = ({ onSearch }) => {
             </div>
           )}
 
+          {/* User Profile - Desktop */}
+          {currentUser && (
+            <div className="hidden md:flex items-center gap-4">
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                  <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-medium">
+                      {currentUser.name.charAt(0)}
+                    </span>
+                  </div>
+                  <span className="text-sm font-medium text-gray-700">
+                    {currentUser.name}
+                  </span>
+                  <ApperIcon 
+                    name={showUserMenu ? "ChevronUp" : "ChevronDown"} 
+                    size={16} 
+                    className="text-gray-500" 
+                  />
+                </button>
+
+                {showUserMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">{currentUser.name}</p>
+                      <p className="text-xs text-gray-500">{currentUser.email}</p>
+                    </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    >
+                      <ApperIcon name="LogOut" size={14} />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <ApperIcon name={mobileMenuOpen ? "X" : "Menu"} size={24} />
-          </button>
+{/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            {currentUser && (
+              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                <span className="text-white text-sm font-medium">
+                  {currentUser.name.charAt(0)}
+                </span>
+              </div>
+            )}
+            <button
+              className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <ApperIcon name={mobileMenuOpen ? "X" : "Menu"} size={24} />
+            </button>
+          </div>
         </div>
 
         {/* Mobile Search Bar */}
@@ -118,7 +179,31 @@ const Header = ({ onSearch }) => {
                 {item.name}
               </button>
             ))}
-          </nav>
+</nav>
+
+          {/* Mobile User Section */}
+          {currentUser && (
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center gap-3 px-4 py-2">
+                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                  <span className="text-white font-medium">
+                    {currentUser.name.charAt(0)}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <p className="font-medium text-gray-900">{currentUser.name}</p>
+                  <p className="text-sm text-gray-500">{currentUser.email}</p>
+                </div>
+              </div>
+              <button
+                onClick={handleLogout}
+                className="w-full mt-2 px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+              >
+                <ApperIcon name="LogOut" size={16} />
+                Sign Out
+              </button>
+            </div>
+          )}
         </div>
       )}
     </header>

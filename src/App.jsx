@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Layout from "@/components/organisms/Layout";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import LoginPage from "@/components/pages/LoginPage";
 import RecipesPage from "@/components/pages/RecipesPage";
 import AddRecipePage from "@/components/pages/AddRecipePage";
 import RecipeDetailPage from "@/components/pages/RecipeDetailPage";
@@ -13,12 +15,33 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-background">
         <Layout>
-          <Routes>
-            <Route path="/" element={<RecipesPage />} />
-            <Route path="/add-recipe" element={<AddRecipePage />} />
-            <Route path="/recipe/:id" element={<RecipeDetailPage />} />
-            <Route path="/categories" element={<CategoriesPage />} />
-            <Route path="/shopping-list" element={<ShoppingListPage />} />
+<Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={
+              <ProtectedRoute>
+                <RecipesPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/add-recipe" element={
+              <ProtectedRoute>
+                <AddRecipePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/recipe/:id" element={
+              <ProtectedRoute>
+                <RecipeDetailPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/categories" element={
+              <ProtectedRoute>
+                <CategoriesPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/shopping-list" element={
+              <ProtectedRoute>
+                <ShoppingListPage />
+              </ProtectedRoute>
+            } />
           </Routes>
         </Layout>
         <ToastContainer
