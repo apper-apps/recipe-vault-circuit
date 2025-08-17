@@ -48,6 +48,42 @@ export const authService = {
     return userSession;
   },
 
+  // Register new user
+  async signup(email, password, name) {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Check if user already exists
+    const existingUser = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (existingUser) {
+      throw new Error('An account with this email already exists');
+    }
+    
+    // Generate new ID
+    const newId = mockUsers.length > 0 ? Math.max(...mockUsers.map(u => u.Id)) + 1 : 1;
+    
+    // Create new user
+    const newUser = {
+      Id: newId,
+      email: email.toLowerCase(),
+      password,
+      name,
+      avatar: null
+    };
+    
+    // Add to mock data
+    mockUsers.push(newUser);
+    
+    // Auto-login after signup
+    const { password: _, ...userSession } = newUser;
+    currentUser = userSession;
+    
+    // Store in localStorage
+    localStorage.setItem('recipeVault_user', JSON.stringify(userSession));
+    
+    return userSession;
+  },
+
   // Logout user
   logout() {
     currentUser = null;

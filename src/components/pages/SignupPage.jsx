@@ -7,14 +7,18 @@ import FormField from '@/components/molecules/FormField';
 import ApperIcon from '@/components/ApperIcon';
 import { authService } from '@/services/api/authService';
 
-const LoginPage = () => {
+function SignupPage() {
   const navigate = useNavigate();
-const [formData, setFormData] = useState({
+  
+  const [formData, setFormData] = useState({
+    name: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -34,6 +38,12 @@ const [formData, setFormData] = useState({
   const validateForm = () => {
     const newErrors = {};
     
+    if (!formData.name.trim()) {
+      newErrors.name = 'Full name is required';
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters';
+    }
+    
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -44,6 +54,12 @@ const [formData, setFormData] = useState({
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
+    }
+    
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = 'Please confirm your password';
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
     }
     
     setErrors(newErrors);
@@ -60,8 +76,8 @@ const [formData, setFormData] = useState({
     setLoading(true);
     
     try {
-      const user = await authService.login(formData.email, formData.password);
-      toast.success(`Welcome back, ${user.name}!`);
+      const user = await authService.signup(formData.email, formData.password, formData.name);
+      toast.success(`Welcome to Recipe Vault, ${user.name}!`);
       navigate('/');
     } catch (error) {
       toast.error(error.message);
@@ -81,14 +97,25 @@ const [formData, setFormData] = useState({
               </div>
             </div>
             <h1 className="text-2xl font-display font-bold text-gray-900 mb-2">
-              Welcome to Recipe Vault
+              Join Recipe Vault
             </h1>
             <p className="text-gray-600">
-              Sign in to access your recipes
+              Create your account to start saving recipes
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            <FormField
+              label="Full Name"
+              name="name"
+              type="text"
+              value={formData.name}
+              onChange={handleInputChange}
+              error={errors.name}
+              placeholder="Enter your full name"
+              required
+            />
+
             <FormField
               label="Email Address"
               name="email"
@@ -96,7 +123,7 @@ const [formData, setFormData] = useState({
               value={formData.email}
               onChange={handleInputChange}
               error={errors.email}
-              placeholder="admin@example.com"
+              placeholder="Enter your email"
               required
             />
 
@@ -107,7 +134,18 @@ const [formData, setFormData] = useState({
               value={formData.password}
               onChange={handleInputChange}
               error={errors.password}
-              placeholder="Enter your password"
+              placeholder="Create a password (min. 6 characters)"
+              required
+            />
+
+            <FormField
+              label="Confirm Password"
+              name="confirmPassword"
+              type="password"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+              error={errors.confirmPassword}
+              placeholder="Confirm your password"
               required
             />
 
@@ -121,40 +159,33 @@ const [formData, setFormData] = useState({
               {loading ? (
                 <div className="flex items-center justify-center gap-2">
                   <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Signing in...
+                  Creating Account...
                 </div>
               ) : (
                 <div className="flex items-center justify-center gap-2">
-                  <ApperIcon name="LogIn" size={16} />
-                  Sign In
+                  <ApperIcon name="UserPlus" size={16} />
+                  Create Account
                 </div>
               )}
             </Button>
           </form>
-<div className="mt-6 text-center">
+
+          <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Already have an account?{' '}
               <button
                 type="button"
-                onClick={() => navigate('/signup')}
+                onClick={() => navigate('/login')}
                 className="text-primary hover:text-secondary font-medium transition-colors"
               >
-                Sign up here
+                Sign in here
               </button>
-            </p>
-          </div>
-
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm text-gray-600 mb-2">Demo Credentials:</p>
-            <p className="text-xs text-gray-500">
-              Email: admin@example.com<br />
-              Password: password
             </p>
           </div>
         </Card>
       </div>
     </div>
   );
-};
+}
 
-export default LoginPage;
+export default SignupPage;

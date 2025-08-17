@@ -1,22 +1,24 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Layout from "@/components/organisms/Layout";
+import SignupPage from "@/components/pages/SignupPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
+import RecipeDetailPage from "@/components/pages/RecipeDetailPage";
 import LoginPage from "@/components/pages/LoginPage";
+import CategoriesPage from "@/components/pages/CategoriesPage";
 import RecipesPage from "@/components/pages/RecipesPage";
 import AddRecipePage from "@/components/pages/AddRecipePage";
-import RecipeDetailPage from "@/components/pages/RecipeDetailPage";
-import CategoriesPage from "@/components/pages/CategoriesPage";
 import ShoppingListPage from "@/components/pages/ShoppingListPage";
+import Layout from "@/components/organisms/Layout";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-background">
         <Layout>
-<Routes>
+          <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
             <Route path="/" element={
               <ProtectedRoute>
                 <RecipesPage />
@@ -60,5 +62,4 @@ function App() {
     </BrowserRouter>
   );
 }
-
 export default App;
