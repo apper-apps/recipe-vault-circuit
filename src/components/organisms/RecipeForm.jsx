@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import Button from "@/components/atoms/Button";
 import FormField from "@/components/molecules/FormField";
 import ImageUpload from "@/components/molecules/ImageUpload";
 import ApperIcon from "@/components/ApperIcon";
-
 const RecipeForm = ({ onSubmit, initialData }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     title: initialData?.title || "",
     description: initialData?.description || "",
     prepTime: initialData?.prepTime || "",
@@ -19,6 +19,23 @@ const RecipeForm = ({ onSubmit, initialData }) => {
 
   const [errors, setErrors] = useState({});
 
+  const handleOCRData = (ocrData) => {
+    if (ocrData) {
+      setFormData(prev => ({
+        ...prev,
+        title: ocrData.title || prev.title,
+        description: ocrData.description || prev.description,
+        prepTime: ocrData.prepTime || prev.prepTime,
+        cookTime: ocrData.cookTime || prev.cookTime,
+        servings: ocrData.servings || prev.servings,
+        categories: ocrData.categories?.join(", ") || prev.categories,
+        ingredients: ocrData.ingredients?.join("\n") || prev.ingredients,
+        instructions: ocrData.instructions?.join("\n") || prev.instructions
+      }));
+      
+      toast.success("Recipe information extracted from image successfully!");
+    }
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -193,11 +210,12 @@ const RecipeForm = ({ onSubmit, initialData }) => {
               Recipe Image
             </h3>
             <ImageUpload
-              onImageSelect={(imageUrl) => setFormData(prev => ({ ...prev, imageUrl }))}
+onImageSelect={(imageUrl) => setFormData(prev => ({ ...prev, imageUrl }))}
               currentImage={formData.imageUrl}
+              onOCRData={handleOCRData}
             />
           </div>
-        </div>
+</div>
       </div>
 
       <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
@@ -209,7 +227,7 @@ const RecipeForm = ({ onSubmit, initialData }) => {
           Save Recipe
         </Button>
       </div>
-    </form>
+</form>
   );
 };
 

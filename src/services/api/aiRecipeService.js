@@ -165,6 +165,123 @@ const generateRecipeFromPrompt = (prompt) => {
     imageUrl
   };
 };
+const parseOCRText = (text) => {
+  const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+  
+  let title = '';
+  let description = '';
+  let prepTime = '';
+  let cookTime = '';
+  let servings = '';
+  let categories = [];
+  let ingredients = [];
+  let instructions = [];
+  
+  let currentSection = '';
+  
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].toLowerCase();
+    const originalLine = lines[i];
+    
+    // Extract title (usually first meaningful line or line with recipe/dish keywords)
+    if (!title && i < 3 && (originalLine.length > 5 && originalLine.length < 50)) {
+      title = originalLine;
+    }
+    
+    // Extract timing information
+    if (line.includes('prep') && (line.includes('min') || line.includes('hour'))) {
+      const timeMatch = line.match(/(\d+)\s*(min|hour)/);
+      if (timeMatch) {
+        prepTime = timeMatch[1];
+      }
+    }
+    
+    if (line.includes('cook') && (line.includes('min') || line.includes('hour'))) {
+      const timeMatch = line.match(/(\d+)\s*(min|hour)/);
+      if (timeMatch) {
+        cookTime = timeMatch[1];
+      }
+    }
+    
+    // Extract servings
+    if (line.includes('serv') || line.includes('yield') || line.includes('makes')) {
+      const servingMatch = line.match(/(\d+)/);
+      if (servingMatch) {
+        servings = servingMatch[1];
+      }
+    }
+    
+    // Identify sections
+    if (line.includes('ingredient')) {
+      currentSection = 'ingredients';
+      continue;
+    } else if (line.includes('instruction') || line.includes('direction') || line.includes('method')) {
+      currentSection = 'instructions';
+      continue;
+    }
+    
+    // Extract ingredients (lines with measurements)
+    if (currentSection === 'ingredients' || 
+        /\b\d+\s*(cup|tbsp|tsp|lb|oz|gram|ml|liter)/.test(line) ||
+        /^\d+\s+\w+/.test(originalLine)) {
+      ingredients.push(originalLine);
+      currentSection = 'ingredients';
+    }
+    
+    // Extract instructions (numbered steps or action words)
+    else if (currentSection === 'instructions' ||
+             /^\d+\./.test(originalLine) ||
+             /^(heat|add|mix|stir|cook|bake|boil|simmer|season)/.test(line)) {
+      instructions.push(originalLine);
+      currentSection = 'instructions';
+    }
+    
+    // Extract description (longer lines that aren't ingredients or instructions)
+    else if (!description && originalLine.length > 20 && originalLine.length < 200 &&
+             !ingredients.includes(originalLine) && !instructions.includes(originalLine)) {
+      description = originalLine;
+    }
+  }
+  
+  // Clean up and validate data
+  if (!title && ingredients.length > 0) {
+    title = "Recipe from Image";
+  }
+  
+  if (!description) {
+    description = "A delicious recipe extracted from an image.";
+  }
+  
+  // Filter out empty or invalid ingredients/instructions
+  ingredients = ingredients.filter(item => item.length > 2 && item.length < 100);
+  instructions = instructions.filter(item => item.length > 5);
+  
+  // Add default categories based on detected ingredients
+  const detectedIngredients = ingredients.join(' ').toLowerCase();
+  if (detectedIngredients.includes('chicken') || detectedIngredients.includes('beef')) {
+    categories.push('meat');
+  }
+  if (detectedIngredients.includes('cheese') || detectedIngredients.includes('milk')) {
+    categories.push('dairy');
+  }
+  if (detectedIngredients.includes('pasta') || detectedIngredients.includes('rice')) {
+    categories.push('grain');
+  }
+  if (categories.length === 0) {
+    categories.push('general');
+  }
+  
+  return {
+    title,
+    description,
+    prepTime: prepTime || '30',
+    cookTime: cookTime || '20',
+    servings: servings || '4',
+    categories,
+    ingredients,
+    instructions
+  };
+};
 
 export const aiRecipeService = {
   async generateRecipe(prompt) {
@@ -180,5 +297,7 @@ export const aiRecipeService = {
     } catch (error) {
       throw new Error("Failed to generate recipe. Please try a different prompt.");
     }
-  }
+  },
+  
+  parseOCRText
 };
