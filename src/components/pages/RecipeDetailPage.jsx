@@ -14,17 +14,19 @@ import { formatDistanceToNow } from "date-fns";
 const RecipeDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [recipe, setRecipe] = useState(null);
+const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [addingToShoppingList, setAddingToShoppingList] = useState(false);
+  const [servingMultiplier, setServingMultiplier] = useState(1);
 
   const loadRecipe = async () => {
     try {
       setLoading(true);
       setError("");
-      const data = await recipeService.getById(id);
+const data = await recipeService.getById(id);
       setRecipe(data);
+      setServingMultiplier(1); // Reset multiplier when loading new recipe
     } catch (err) {
       setError(err.message || "Failed to load recipe");
     } finally {
@@ -44,6 +46,63 @@ const RecipeDetailPage = () => {
       setAddingToShoppingList(false);
     }
   };
+const scaleIngredient = (ingredient, multiplier) => {
+    if (multiplier === 1) return ingredient;
+    
+    // Common fraction mappings
+    const fractionMap = {
+      '1/4': 0.25, '1/3': 0.333, '1/2': 0.5, '2/3': 0.667, '3/4': 0.75,
+      '¼': 0.25, '⅓': 0.333, '½': 0.5, '⅔': 0.667, '¾': 0.75
+    };
+    
+    // Reverse fraction mapping for display
+    const reversefractionMap = {
+      0.25: '1/4', 0.333: '1/3', 0.5: '1/2', 0.667: '2/3', 0.75: '3/4'
+    };
+    
+    // Try to find and scale numbers in the ingredient
+    return ingredient.replace(/(\d+(?:\.\d+)?|\d*\s*(?:1\/4|1\/3|1\/2|2\/3|3\/4|¼|⅓|½|⅔|¾))/g, (match) => {
+      let value;
+      const trimmedMatch = match.trim();
+      
+      // Handle fractions
+      if (fractionMap[trimmedMatch]) {
+        value = fractionMap[trimmedMatch];
+      } else if (trimmedMatch.includes('/')) {
+        const parts = trimmedMatch.split('/');
+        value = parseFloat(parts[0]) / parseFloat(parts[1]);
+      } else {
+        value = parseFloat(trimmedMatch);
+      }
+      
+      if (isNaN(value)) return match;
+      
+      const scaledValue = value * multiplier;
+      
+      // Format the result nicely
+      if (scaledValue % 1 === 0) {
+        return scaledValue.toString();
+      } else if (reversefractionMap[scaledValue]) {
+        return reversefractionMap[scaledValue];
+      } else if (scaledValue < 1) {
+        // Convert to fraction if possible
+        const decimal = scaledValue % 1;
+        if (Math.abs(decimal - 0.25) < 0.01) return '1/4';
+        if (Math.abs(decimal - 0.333) < 0.01) return '1/3';
+        if (Math.abs(decimal - 0.5) < 0.01) return '1/2';
+        if (Math.abs(decimal - 0.667) < 0.01) return '2/3';
+        if (Math.abs(decimal - 0.75) < 0.01) return '3/4';
+        return scaledValue.toFixed(2).replace(/\.?0+$/, '');
+      } else {
+        return scaledValue.toFixed(2).replace(/\.?0+$/, '');
+      }
+    });
+  };
+
+  const handleServingMultiplier = (multiplier) => {
+    setServingMultiplier(multiplier);
+    toast.success(`Recipe scaled to ${multiplier}x servings`);
+  };
 
   useEffect(() => {
     if (id) {
@@ -54,7 +113,6 @@ const RecipeDetailPage = () => {
   if (loading) return <Layout><Loading /></Layout>;
   if (error) return <Layout><Error message={error} onRetry={loadRecipe} /></Layout>;
   if (!recipe) return <Layout><Error message="Recipe not found" /></Layout>;
-
   return (
     <Layout>
       <div className="max-w-4xl mx-auto space-y-8">
@@ -88,10 +146,17 @@ const RecipeDetailPage = () => {
                   <span>{recipe.cookTime}m cook</span>
                 </div>
               )}
-              {recipe.servings && (
+{recipe.servings && (
                 <div className="flex items-center gap-1">
                   <ApperIcon name="Users" size={16} />
-                  <span>{recipe.servings} servings</span>
+                  <span>
+                    {Math.round(recipe.servings * servingMultiplier)} servings
+                    {servingMultiplier !== 1 && (
+                      <span className="text-primary ml-1 font-medium">
+                        ({servingMultiplier}x)
+                      </span>
+                    )}
+                  </span>
                 </div>
               )}
               {recipe.createdAt && (
@@ -168,6 +233,22 @@ const RecipeDetailPage = () => {
                 Ingredients
               </h2>
               <div className="space-y-3">
+<div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-gray-600">Serving Size:</span>
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4].map((multiplier) => (
+                      <Button
+                        key={multiplier}
+                        variant={servingMultiplier === multiplier ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => handleServingMultiplier(multiplier)}
+                        className="px-3 py-1 text-xs min-w-[2.5rem]"
+                      >
+                        {multiplier}X
+                      </Button>
+                    ))}
+                  </div>
+                </div>
                 {recipe.ingredients.map((ingredient, index) => (
                   <div key={index} className="flex items-start gap-3">
                     <input
@@ -179,7 +260,7 @@ const RecipeDetailPage = () => {
                       htmlFor={`ingredient-${index}`}
                       className="text-gray-700 leading-relaxed cursor-pointer"
                     >
-                      {ingredient}
+                      {scaleIngredient(ingredient, servingMultiplier)}
                     </label>
                   </div>
                 ))}
