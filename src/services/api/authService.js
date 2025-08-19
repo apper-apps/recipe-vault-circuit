@@ -6,6 +6,69 @@ const mockUsers = [
     password: 'password',
     name: 'Recipe Admin',
     avatar: null
+  },
+  {
+    Id: 2,
+    email: 'chef.maria@example.com',
+    password: 'password',
+    name: 'Chef Maria Rodriguez',
+    avatar: null
+  },
+  {
+    Id: 3,
+    email: 'john.baker@example.com',
+    password: 'password',
+    name: 'John Baker',
+    avatar: null
+  },
+  {
+    Id: 4,
+    email: 'sarah.cook@example.com',
+    password: 'password',
+    name: 'Sarah Cook',
+    avatar: null
+  },
+  {
+    Id: 5,
+    email: 'mike.chef@example.com',
+    password: 'password',
+    name: 'Mike Thompson',
+    avatar: null
+  },
+  {
+    Id: 6,
+    email: 'emily.kitchen@example.com',
+    password: 'password',
+    name: 'Emily Johnson',
+    avatar: null
+  },
+  {
+    Id: 7,
+    email: 'david.recipes@example.com',
+    password: 'password',
+    name: 'David Wilson',
+    avatar: null
+  },
+  {
+    Id: 8,
+    email: 'lisa.food@example.com',
+    password: 'password',
+    name: 'Lisa Chen',
+    avatar: null
+  },
+  {
+    Id: 9,
+    email: 'alex.cuisine@example.com',
+    password: 'password',
+    name: 'Alex Martinez',
+    avatar: null
+  },
+  {
+    Id: 10,
+    email: 'jessica.meals@example.com',
+    password: 'password',
+    name: 'Jessica Brown',
+    avatar: null
   }
 ];
 
