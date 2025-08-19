@@ -9,11 +9,12 @@ import { authService } from "@/services/api/authService";
 const Header = ({ onSearch }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchQuery, setSearchQuery] = useState("");
+const [searchQuery, setSearchQuery] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const currentUser = authService.getCurrentUser();
-
+  const [showUserSelector, setShowUserSelector] = useState(false);
+  const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
+  const [availableUsers, setAvailableUsers] = useState([]);
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchQuery(value);
@@ -27,7 +28,31 @@ const Header = ({ onSearch }) => {
     toast.success('Logged out successfully');
     navigate('/login');
     setShowUserMenu(false);
+};
+
+  const handleSwitchUser = (userId) => {
+    try {
+      const user = authService.switchUser(userId);
+      setCurrentUser(user);
+      toast.success(`Switched to ${user.name}`);
+      setShowUserSelector(false);
+      setShowUserMenu(false);
+      // Refresh the page to update all components with new user context
+      window.location.reload();
+    } catch (error) {
+      toast.error('Failed to switch user');
+    }
   };
+
+  const toggleUserSelector = () => {
+    if (!showUserSelector) {
+      // Load available users when opening selector
+      const users = authService.getAllUsers().filter(user => user.Id !== currentUser?.Id);
+      setAvailableUsers(users);
+    }
+    setShowUserSelector(!showUserSelector);
+  };
+
 const navigationItems = [
     { name: "Recipes", path: "/", icon: "BookOpen" },
     { name: "Add Recipe", path: "/add-recipe", icon: "Plus" },
@@ -110,12 +135,19 @@ const navigationItems = [
                   />
                 </button>
 
-                {showUserMenu && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
+{showUserMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                     <div className="px-4 py-2 border-b border-gray-100">
                       <p className="text-sm font-medium text-gray-900">{currentUser.name}</p>
                       <p className="text-xs text-gray-500">{currentUser.email}</p>
                     </div>
+                    <button
+                      onClick={toggleUserSelector}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                    >
+                      <ApperIcon name="Users" size={14} />
+                      Switch User
+                    </button>
                     <button
                       onClick={handleLogout}
                       className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
@@ -123,6 +155,43 @@ const navigationItems = [
                       <ApperIcon name="LogOut" size={14} />
                       Sign Out
                     </button>
+                  </div>
+                )}
+
+                {/* User Selector Modal */}
+                {showUserSelector && (
+                  <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-900">Select User</p>
+                      <p className="text-xs text-gray-500">Choose a user to switch to</p>
+                    </div>
+                    <div className="max-h-60 overflow-y-auto">
+                      {availableUsers.map((user) => (
+                        <button
+                          key={user.Id}
+                          onClick={() => handleSwitchUser(user.Id)}
+                          className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors"
+                        >
+                          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                            <span className="text-white text-sm font-medium">
+                              {user.name.charAt(0)}
+                            </span>
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                            <p className="text-xs text-gray-500">{user.email}</p>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="px-4 py-2 border-t border-gray-100">
+                      <button
+                        onClick={() => setShowUserSelector(false)}
+                        className="text-xs text-gray-500 hover:text-gray-700"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </div>
                 )}
               </div>
@@ -183,7 +252,7 @@ const navigationItems = [
 </nav>
 
           {/* Mobile User Section */}
-          {currentUser && (
+{currentUser && (
             <div className="mt-4 pt-4 border-t border-gray-200">
               <div className="flex items-center gap-3 px-4 py-2">
                 <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
@@ -196,13 +265,55 @@ const navigationItems = [
                   <p className="text-sm text-gray-500">{currentUser.email}</p>
                 </div>
               </div>
-              <button
-                onClick={handleLogout}
-                className="w-full mt-2 px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-              >
-                <ApperIcon name="LogOut" size={16} />
-                Sign Out
-              </button>
+              
+              <div className="px-4 space-y-1">
+                <button
+                  onClick={toggleUserSelector}
+                  className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2 rounded-lg"
+                >
+                  <ApperIcon name="Users" size={16} />
+                  Switch User
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center gap-2 rounded-lg"
+                >
+                  <ApperIcon name="LogOut" size={16} />
+                  Sign Out
+                </button>
+              </div>
+
+              {/* Mobile User Selector */}
+              {showUserSelector && (
+                <div className="mt-3 mx-4 bg-gray-50 rounded-lg p-3">
+                  <p className="text-sm font-medium text-gray-900 mb-2">Select User</p>
+                  <div className="space-y-2">
+                    {availableUsers.map((user) => (
+                      <button
+                        key={user.Id}
+                        onClick={() => handleSwitchUser(user.Id)}
+                        className="w-full text-left p-2 hover:bg-white rounded-lg flex items-center gap-3 transition-colors"
+                      >
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+                          <span className="text-white text-sm font-medium">
+                            {user.name.charAt(0)}
+                          </span>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-gray-900">{user.name}</p>
+                          <p className="text-xs text-gray-500">{user.email}</p>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => setShowUserSelector(false)}
+                    className="mt-2 text-xs text-gray-500 hover:text-gray-700"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>

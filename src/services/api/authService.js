@@ -212,12 +212,25 @@ const user = mockUsers.find(u => u.Id === id);
     return safeUser;
   },
 
-  // Get all users (admin function)
+// Get all users (admin function)
   getAllUsers() {
     // Return all users without passwords
     return mockUsers.map(user => {
       const { password: _, ...safeUser } = user;
       return safeUser;
     });
+  },
+
+  // Switch to a different user
+  switchUser(userId) {
+    const user = mockUsers.find(u => u.Id === userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const { password: _, ...safeUser } = user;
+    currentUser = safeUser;
+    localStorage.setItem('recipeVault_user', JSON.stringify(safeUser));
+    return safeUser;
   }
 };
