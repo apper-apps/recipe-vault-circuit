@@ -79,8 +79,16 @@ export const recipeService = {
       return [...recipes];
     }
     
-    return recipes.filter(recipe => 
+return recipes.filter(recipe => 
       recipe.categories.includes(category.toLowerCase())
     );
+  },
+
+  async generateRecipe(prompt) {
+    await delay(2000); // Simulate AI processing time
+    
+    // Import AI service for recipe generation
+    const { aiRecipeService } = await import("@/services/api/aiRecipeService");
+    return await aiRecipeService.generateRecipe(prompt);
   }
 };

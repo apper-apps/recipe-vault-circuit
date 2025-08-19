@@ -68,6 +68,15 @@ export const useRecipes = () => {
     loadRecipes();
   }, []);
 
+const generateRecipe = async (prompt) => {
+    try {
+      const generatedRecipe = await recipeService.generateRecipe(prompt);
+      return generatedRecipe;
+    } catch (err) {
+      throw new Error(err.message || "Failed to generate recipe");
+    }
+  };
+
   return {
     recipes,
     loading,
@@ -76,6 +85,7 @@ export const useRecipes = () => {
     searchRecipes,
     filterByCategory,
     createRecipe,
-    deleteRecipe
+    deleteRecipe,
+    generateRecipe
   };
 };
