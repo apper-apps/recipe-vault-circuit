@@ -84,11 +84,57 @@ return recipes.filter(recipe =>
     );
   },
 
-  async generateRecipe(prompt) {
+async generateRecipe(prompt) {
     await delay(2000); // Simulate AI processing time
     
     // Import AI service for recipe generation
     const { aiRecipeService } = await import("@/services/api/aiRecipeService");
     return await aiRecipeService.generateRecipe(prompt);
+  },
+
+  async importFromPinterest(url) {
+    // Validate Pinterest URL
+    if (!url || !url.includes('pinterest.com')) {
+      throw new Error('Please provide a valid Pinterest URL');
+    }
+
+    await delay(1500); // Simulate API processing time
+
+    // Mock extracted recipe data - in real implementation, this would
+// Mock extracted recipe data - in real implementation, this would
+// scrape the Pinterest page or use Pinterest API
+const extractedRecipe = {
+Id: recipes.length + 1,
+title: 'Imported Pinterest Recipe',
+      ingredients: [
+        '2 cups all-purpose flour',
+        '1 tsp baking powder',
+        '1/2 tsp salt',
+        '1 cup sugar',
+        '2 large eggs',
+        '1 cup milk',
+        '1/2 cup vegetable oil'
+      ],
+      instructions: [
+        'Preheat oven to 350°F (175°C)',
+        'Mix dry ingredients in a large bowl',
+        'Combine wet ingredients in a separate bowl',
+        'Fold wet ingredients into dry ingredients',
+        'Pour into prepared baking dish',
+        'Bake for 25-30 minutes until golden brown'
+      ],
+      prepTime: '15 minutes',
+      cookTime: '30 minutes',
+      servings: 8,
+      difficulty: 'Medium',
+      categoryId: 1,
+      sourceUrl: url,
+      image: 'https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=800&h=600&fit=crop',
+      createdAt: new Date().toISOString()
+    };
+// Add to mock data
+recipes.unshift(extractedRecipe);
+
+return extractedRecipe;
   }
 };

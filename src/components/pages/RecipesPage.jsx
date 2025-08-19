@@ -49,14 +49,23 @@ const RecipesPage = () => {
                activeCategory ? `Recipes in ${activeCategory}` : 
                `${recipes.length} recipes in your collection`}
             </p>
+</div>
+          <div className="flex gap-3">
+            <Button 
+              onClick={() => navigate("/import-recipe")}
+              className="flex items-center gap-2 whitespace-nowrap bg-accent text-gray-900 hover:bg-accent/90"
+            >
+              <ApperIcon name="Download" size={18} />
+              Import Recipe
+            </Button>
+            <Button 
+              onClick={() => navigate("/add-recipe")}
+              className="flex items-center gap-2 whitespace-nowrap"
+            >
+              <ApperIcon name="Plus" size={18} />
+              Add Recipe
+            </Button>
           </div>
-          <Button 
-            onClick={() => navigate("/add-recipe")}
-            className="flex items-center gap-2 whitespace-nowrap"
-          >
-            <ApperIcon name="Plus" size={18} />
-            Add Recipe
-          </Button>
         </div>
 
         {/* Categories Filter */}

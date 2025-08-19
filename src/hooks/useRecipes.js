@@ -77,8 +77,18 @@ const generateRecipe = async (prompt) => {
     }
   };
 
+  const importFromPinterest = async (url) => {
+    try {
+      const importedRecipe = await recipeService.importFromPinterest(url);
+      setRecipes(prev => [importedRecipe, ...prev]);
+      return importedRecipe;
+    } catch (err) {
+      throw new Error(err.message || "Failed to import recipe from Pinterest");
+    }
+  };
+
   return {
-    recipes,
+recipes,
     loading,
     error,
     loadRecipes,
@@ -86,6 +96,7 @@ const generateRecipe = async (prompt) => {
     filterByCategory,
     createRecipe,
     deleteRecipe,
-    generateRecipe
+    generateRecipe,
+    importFromPinterest
   };
 };

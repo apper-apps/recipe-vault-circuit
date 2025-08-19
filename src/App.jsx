@@ -1,15 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import SignupPage from "@/components/pages/SignupPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import RecipeDetailPage from "@/components/pages/RecipeDetailPage";
 import LoginPage from "@/components/pages/LoginPage";
 import CategoriesPage from "@/components/pages/CategoriesPage";
+import AddUserPage from "@/components/pages/AddUserPage";
 import RecipesPage from "@/components/pages/RecipesPage";
 import AddRecipePage from "@/components/pages/AddRecipePage";
 import ShoppingListPage from "@/components/pages/ShoppingListPage";
-import AddUserPage from "@/components/pages/AddUserPage";
+import SignupPage from "@/components/pages/SignupPage";
 import Layout from "@/components/organisms/Layout";
 function App() {
   return (
@@ -19,12 +19,17 @@ function App() {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/" element={
+<Route path="/" element={
               <ProtectedRoute>
                 <RecipesPage />
               </ProtectedRoute>
             } />
             <Route path="/add-recipe" element={
+              <ProtectedRoute>
+                <AddRecipePage />
+              </ProtectedRoute>
+            } />
+            <Route path="/import-recipe" element={
               <ProtectedRoute>
                 <AddRecipePage />
               </ProtectedRoute>
