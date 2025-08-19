@@ -28,11 +28,12 @@ const Header = ({ onSearch }) => {
     navigate('/login');
     setShowUserMenu(false);
   };
-  const navigationItems = [
+const navigationItems = [
     { name: "Recipes", path: "/", icon: "BookOpen" },
     { name: "Add Recipe", path: "/add-recipe", icon: "Plus" },
     { name: "Categories", path: "/categories", icon: "Tags" },
-    { name: "Shopping List", path: "/shopping-list", icon: "ShoppingCart" }
+    { name: "Shopping List", path: "/shopping-list", icon: "ShoppingCart" },
+    { name: "Add User", path: "/add-user", icon: "UserPlus" }
   ];
 
   const isActivePath = (path) => {

@@ -9,8 +9,8 @@ import CategoriesPage from "@/components/pages/CategoriesPage";
 import RecipesPage from "@/components/pages/RecipesPage";
 import AddRecipePage from "@/components/pages/AddRecipePage";
 import ShoppingListPage from "@/components/pages/ShoppingListPage";
+import AddUserPage from "@/components/pages/AddUserPage";
 import Layout from "@/components/organisms/Layout";
-
 function App() {
   return (
     <BrowserRouter>
@@ -39,9 +39,14 @@ function App() {
                 <CategoriesPage />
               </ProtectedRoute>
             } />
-            <Route path="/shopping-list" element={
+<Route path="/shopping-list" element={
               <ProtectedRoute>
                 <ShoppingListPage />
+              </ProtectedRoute>
+            } />
+            <Route path="/add-user" element={
+              <ProtectedRoute>
+                <AddUserPage />
               </ProtectedRoute>
             } />
           </Routes>

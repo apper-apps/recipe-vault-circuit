@@ -1,3 +1,5 @@
+import React from "react";
+import Error from "@/components/ui/Error";
 // Mock user data
 const mockUsers = [
   {
@@ -169,7 +171,7 @@ export const authService = {
       throw new Error('Invalid user ID');
     }
     
-    const user = mockUsers.find(u => u.Id === id);
+const user = mockUsers.find(u => u.Id === id);
     if (!user) {
       throw new Error('User not found');
     }
@@ -177,5 +179,45 @@ export const authService = {
     // Don't return password
     const { password: _, ...safeUser } = user;
     return safeUser;
+  },
+
+  // Create new user (admin function)
+  async createUser(email, password, name) {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Check if user already exists
+    const existingUser = mockUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (existingUser) {
+      throw new Error('An account with this email already exists');
+    }
+    
+    // Generate new ID
+    const newId = mockUsers.length > 0 ? Math.max(...mockUsers.map(u => u.Id)) + 1 : 1;
+    
+    // Create new user
+    const newUser = {
+      Id: newId,
+      email: email.toLowerCase(),
+      password,
+      name,
+      avatar: null
+    };
+    
+    // Add to mock data
+    mockUsers.push(newUser);
+    
+    // Return user without password
+    const { password: _, ...safeUser } = newUser;
+    return safeUser;
+  },
+
+  // Get all users (admin function)
+  getAllUsers() {
+    // Return all users without passwords
+    return mockUsers.map(user => {
+      const { password: _, ...safeUser } = user;
+      return safeUser;
+    });
   }
 };
