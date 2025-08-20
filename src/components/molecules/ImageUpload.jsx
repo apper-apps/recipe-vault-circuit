@@ -132,9 +132,10 @@ const [isOCRProcessing, setIsOCRProcessing] = useState(false);
       )}
       
       <input
-        ref={fileInputRef}
+ref={fileInputRef}
         type="file"
         accept="image/*"
+        capture="environment"
         onChange={handleFileInputChange}
         className="hidden"
       />
